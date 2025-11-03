@@ -479,57 +479,36 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function mergeSortByAsc(left, right) {
-  const merge = [];
-  let i = 0;
-  let j = 0;
-  let count = 0;
-
-  while (i < left.length && j < right.length) {
-    if (left[i] < right[j]) {
-      merge[count] = left[i];
-      count += 1;
-      i += 1;
-    } else {
-      merge[count] = right[j];
-      count += 1;
-      j += 1;
-    }
-  }
-
-  while (i < left.length) {
-    merge[count] = left[i];
-    count += 1;
-    i += 1;
-  }
-
-  while (j < right.length) {
-    merge[count] = right[j];
-    count += 1;
-    j += 1;
-  }
-
-  return merge;
-}
-
 function sortByAsc(arr) {
+  const result = arr;
+
   if (arr.length <= 1) {
     return arr;
   }
 
-  const middle = Math.floor(arr.length / 2);
+  const pivot = arr[0];
   const left = [];
   const right = [];
+  let indexLeft = 0;
+  let indexRight = 0;
 
-  for (let i = 0; i < middle; i += 1) {
-    left[i] = arr[i];
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < pivot) {
+      left[indexLeft] = arr[i];
+      indexLeft += 1;
+    } else {
+      right[indexRight] = arr[i];
+      indexRight += 1;
+    }
   }
 
-  for (let i = middle; i < arr.length; i += 1) {
-    right[i - middle] = arr[i];
+  const temp = [...sortByAsc(left), pivot, ...sortByAsc(right)];
+
+  for (let i = 0; i < temp.length; i += 1) {
+    result[i] = temp[i];
   }
 
-  return mergeSortByAsc(sortByAsc(left), sortByAsc(right));
+  return result;
 }
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
